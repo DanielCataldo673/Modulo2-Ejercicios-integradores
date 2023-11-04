@@ -1,0 +1,39 @@
+Aplicar PDO,PHP, MYSQL.
+
+1-Crear una base de datos con los superhéroes principales de DC comic, donde tendrán campos como id, nombre, descripción, peleas ganadas, imagen, estos datos deberán ser clases en php y tendrán que conectase a la base de datos , mostrar los datos en card con bootstrap.
+
+2- Crear una base de datos con los personajes principales de Volver al Futuro, donde tendrán campos como id, nombre, descripción, imagen, estos datos deberán ser clases en php y tendrán que conectase a la base de datos , mostrar los datos en card con bootstrap.
+
+3- Crear una base de datos para un restaurante, donde en  una tabla llamada menú tendrán campos como id, producto, precio, stock, tipo, imagen, estos datos deberán ser clases en php y tendrán que conectase a la base de datos, mostrar los datos en una tabla de bootstrap.
+
+
+ 4-  Crear una base de datos para una Juguetería, donde en una tabla llamada Juguetes tendrán campos como id, nombre, precio, categoría (debe estar en otra tabla ), imagen, estos datos deberán ser clases en php y tendrán que conectase a la base de datos , mostrar los datos en una tabla de bootstrap.
+
+
+5- Desarrolla una aplicación para una biblioteca en la que se gestionen los libros y los socios. Crea una base de datos con dos tablas: una para los libros (con campos como ID, título, autor y género) y otra para los socios (con campos como ID, nombre, dirección y número de teléfono). Implementa clases en PHP para representar los libros y los socios, utilizando PDO para la conexión a la base de datos. Luego, muestra los datos de los libros y los socios en una interfaz web utilizando HTML y Bootstrap. Opcional, implementar método de buscar libro (investigar)
+
+
+
+Ejercicios IMPORTANTE: 
+6- Crear una base de datos de la institución CFP20 con secretarias, regente , profesores ,alumnos,etc, los campos que debe tener los alumnos  son ( id ,nombre, apellido, barrio, fecha de nacimiento, estado civil,nota,curso_inscripto,correo, imagen), para la tabla empleados ( id, nombre, apellido,cargo,fecha de nacimiento, barrio, imagen).
+Muestra los datos de los alumnos y empleados  en una interfaz web utilizando HTML y Bootstrap.
+
+Para recolectar los datos deberán preguntar e investigar en toda la institución.
+
+Opcional Emplear un método para avisar si alguno cumple años, pueden agregar otros métodos.
+
+MINIMO 20 datos en total. 
+
+Importante: realizarlo con el mayor diseño posible, será presentado y tendrá un ganador con la votación de los empleados de la institución.
+
+Abra premios para el primer y segundo puesto.
+
+
+7- Crear una base de datos a su elección, e implementar todo lo visto en clase.
+
+
+
+
+
+
+

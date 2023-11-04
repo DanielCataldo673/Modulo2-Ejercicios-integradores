@@ -1,0 +1,119 @@
+3- Consultas SQL.
+
+
+1-	Obtener todos los productos de una categoría especifica.
+
+SELECT  c.nombre_categoria, p.nombre
+FROM productos p 
+INNER JOIN categoria c ON c.id_categoria = p.id_categoria
+WHERE c.id_categoria = 4;
+
+
+2-	 Obtener el nombre y el precio de todos los productos.
+
+SELECT p.nombre, p.precio
+FROM productos p;
+
+3-	Encontrar los productos superiores a cierto valor.
+
+SELECT p.nombre, p.precio
+FROM productos p
+WHERE p.precio > 50000;
+
+4-	Obtener el nombre de todas las categorías.
+
+SELECT nombre_categoria
+FROM categoria;
+
+5-	Encontrar los clientes que realizaron más pedidos.
+
+SELECT CONCAT(c.nombre, ' ' ,c.apellido) AS FULL_name, MAX(p.id_pedido) AS cantidad_pedidos
+FROM pedido p 
+INNER JOIN clientes c ON c.id_clientes = p.id_clientes
+GROUP BY FULL_name
+ORDER BY cantidad_pedidos DESC
+LIMIT 4;
+
+6-	Obtener los productos que tengan mayor stock.
+
+SELECT p.nombre, SUM(p.stock) mayor_stock
+FROM productos p
+GROUP BY p.nombre
+ORDER BY mayor_stock DESC
+LIMIT 4;
+
+7-	Obtener los productos más populares (los más vendidos)
+
+SELECT p.nombre, SUM(dp.cantidad) AS mas_vendido
+FROM detalle_pedidos dp 
+INNER JOIN productos p ON p.id_productos = dp.id_productos
+GROUP BY p.nombre
+ORDER BY mas_vendido DESC
+LIMIT 4;
+
+8-	Encontrar el total de ventas por categoría.
+
+SELECT c.nombre_categoria, SUM(dp.cantidad) AS mas_vendido
+FROM detalle_pedidos dp 
+INNER JOIN productos p ON p.id_productos = dp.id_productos
+INNER JOIN categoria c ON c.id_categoria = p.id_categoria
+GROUP BY c.id_categoria;
+
+
+9-	Encontrar la cantidad de productos en stock por categoría.
+
+SELECT c.nombre_categoria, SUM(p.stock) cantidad_stock
+FROM productos p
+INNER JOIN categoria c ON c.id_categoria = p.id_categoria
+GROUP BY c.nombre_categoria
+ORDER BY cantidad_stock;
+
+10-	Encontrar los productos que tienen poco stock (por ejemplo menos de 10)
+
+SELECT p.nombre, p.stock
+FROM productos p
+WHERE p.stock < 10
+ORDER BY p.stock;
+
+11-	Obtener la cantidad de pedidos por estado.
+
+SELECT COUNT(p.id_pedido) AS cantidad_pedidos, p.estado
+FROM pedido p 
+GROUP BY p.estado
+ORDER BY cantidad_pedidos;
+
+12-	Encontrar los clientes que han realizado al menos un pedido.
+
+SELECT CONCAT(c.nombre, ' ' ,c.apellido) AS FULL_name, COUNT(p.id_clientes) AS cantidad_pedidos
+FROM pedido p
+INNER JOIN clientes c ON c.id_clientes = p.id_clientes
+WHERE p.id_clientes IS NOT NULL
+GROUP BY FULL_name
+ORDER BY cantidad_pedidos;
+
+13-	Obtener la cantidad de pedidos realizados por cada cliente.
+
+SELECT CONCAT(c.nombre, ' ' ,c.apellido) AS FULL_name, COUNT(p.id_pedido) AS cantidad_pedidos
+FROM pedido p
+INNER JOIN clientes c ON c.id_clientes = p.id_clientes
+GROUP BY FULL_name
+ORDER BY cantidad_pedidos;
+
+14-	Encontrar los productos que han sido ordenados por un cliente especifico.
+
+SELECT c.id_clientes, GROUP_CONCAT(p.nombre) AS productos, CONCAT(c.nombre, ' ' ,c.apellido) AS FULL_name 
+FROM detalle_pedidos dp
+INNER JOIN productos p ON p.id_productos = dp.id_productos
+INNER JOIN pedido pe ON pe.id_pedido = dp.id_pedido
+INNER JOIN clientes c ON c.id_clientes = pe.id_clientes
+WHERE c.id_clientes = 10
+GROUP BY FULL_name;
+
+15-	Obtener los pedidos que contienen un producto con un precio superior a cierto valor.
+
+SELECT pr.nombre, pr.precio, pr.stock
+FROM pedido p
+INNER JOIN detalle_pedidos d on d.id_pedido = p.id_pedido
+INNER JOIN productos pr on pr.id_productos = d.id_productos
+WHERE pr.precio > 50000
+

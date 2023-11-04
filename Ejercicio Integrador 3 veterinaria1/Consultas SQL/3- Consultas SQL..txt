@@ -1,0 +1,112 @@
+3- Consultas SQL.
+
+1- Obtener todos los animales de un propietario especifico.
+
+SELECT a.nombre, CONCAT(p.nombre, ' ' ,p.apellido) AS full_name
+FROM animal a 
+INNER JOIN propietario p ON p.id_propietario = a.id_propietario
+WHERE p.id_propietario = 5
+GROUP BY full_name;
+
+2- Obtener todos los animales atendidos por un veterinario en particular.
+
+SELECT v.nombre, GROUP_CONCAT(a.nombre) AS nombre_animales
+FROM cita c 
+INNER JOIN animal a ON a.id_animal = c.id_animal
+INNER JOIN veterinario v ON v.id_veterinario = c.id_veterinario
+WHERE v.id_veterinario = 3
+GROUP BY v.nombre;
+
+3- Obtener todas las citas programadas para un animal en particular.
+
+SELECT c.id_cita, c.fecha, c.hora, a.nombre, a.especie, c.notas
+FROM cita c 
+INNER JOIN animal a ON a.id_animal = c.id_animal
+WHERE a.id_animal = 6;
+
+
+4- Obtener los tratamientos realizados por un veterinario con una fecha específica.
+
+SELECT v.id_veterinario, v.nombre, t.nombre AS tratamiento, c.fecha
+FROM tratamiento t 
+INNER JOIN cita c ON c.id_cita = t.id_cita
+INNER JOIN veterinario v ON v.id_veterinario = c.id_veterinario
+WHERE v.id_veterinario = 3 AND c.fecha = '2023-09-08';
+
+
+5- Obtener los 3 propietarios cuyo animal han sido atendidos recientemente.
+
+SELECT CONCAT(p.nombre, ' ' , p.apellido) AS full_name, c.fecha
+FROM cita c 
+INNER JOIN animal a ON a.id_animal = c.id_animal
+INNER JOIN propietario p ON p.id_propietario = a.id_propietario
+ORDER BY c.fecha DESC
+LIMIT 3;
+ 
+6- Contar el número total de citas para cada veterinario
+
+SELECT v.id_veterinario, v.nombre AS nombre_veterinario, COUNT(c.id_cita) AS total_citas 
+FROM cita c 
+INNER JOIN veterinario v ON v.id_veterinario = c.id_veterinario
+GROUP BY v.nombre
+ORDER BY v.id_veterinario;
+
+7- Encontrar los tratamientos más comunes
+
+SELECT t.nombre, COUNT(t.nombre) AS tratamiento_comunes
+FROM tratamiento t 
+INNER JOIN cita c ON c.id_cita = t.id_cita
+GROUP BY t.nombre
+ORDER BY tratamiento_comunes DESC
+LIMIT 1;
+
+8- Obtener el nombre y especialidad de todos los veterinarios
+
+SELECT nombre, especialidad 
+FROM veterinario;
+
+9- Encontrar los animales que aún no tienen citas programadas.
+
+SELECT a.nombre 
+FROM cita c 
+LEFT JOIN animal a ON a.id_animal = c.id_animal
+WHERE c.id_cita  IS NULL;
+
+10- Obtener la cantidad promedio de los tratamientos realizados por animal.
+
+SELECT AVG(t.nombre) AS tratamiento_promedio, a.nombre
+FROM tratamiento t 
+INNER JOIN cita c ON c.id_cita = t.id_cita
+INNER JOIN animal a ON a.id_animal = c.id_animal
+GROUP BY a.nombre;
+
+11- Encontrar los propietarios que tienen más de un animal.
+
+SELECT p.id_propietario, CONCAT(p.nombre, ' ' ,p.apellido) AS Full_name, COUNT(a.nombre) AS total_animales
+FROM animal a 
+INNER JOIN propietario p ON p.id_propietario = a.id_propietario
+GROUP BY FULL_name
+ORDER BY total_animales DESC, p.id_propietario
+LIMIT 2;
+
+12 - Obtener la lista de tratamientos que fueron realizados de una especie especifica.
+
+SELECT GROUP_CONCAT(t.nombre) AS lista_tratamientos, a.especie
+FROM tratamiento t 
+INNER JOIN cita c ON c.id_cita = t.id_cita
+INNER JOIN animal a ON a.id_animal = c.id_animal
+WHERE a.especie = 'Perro'
+GROUP BY a.especie;
+
+13-- Contar cuando animales de cada sexo hay en la clínica.
+
+SELECT COUNT(a.sexo) AS cantidad_animales, a.sexo
+FROM animal a
+GROUP BY a.sexo;
+
+14 - Obtener el nombre del propietario, el nombre del animal y la fecha de la próxima cita, para cada animal que tiene una cita programada.
+
+SELECT CONCAT(p.nombre, ' ' ,p.apellido) AS Full_name,a.id_animal, a.nombre, c.fecha
+FROM cita c 
+INNER JOIN animal a ON a.id_animal = c.id_animal
+INNER JOIN propietario p on p.id_propietario = a.id_propietario;

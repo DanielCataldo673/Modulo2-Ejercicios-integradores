@@ -1,0 +1,64 @@
+3- Consultas SQL.
+Listar todos los productos con sus fabricantes.
+
+SELECT p.nombre AS nombre_producto, f.nombre AS nombre_fabricante
+FROM productos p 
+INNER JOIN fabricante f ON f.id_fabricante = p.id_fabricante;
+
+Mostrar los productos de un fabricante específico.
+
+SELECT p.nombre AS nombre_producto, f.nombre AS nombre_fabricante
+FROM productos p 
+INNER JOIN fabricante f ON f.id_fabricante = p.id_fabricante
+WHERE f.id_fabricante = 6;
+
+Encontrar el fabricante de un producto en particular.
+
+SELECT p.nombre AS nombre_producto, f.nombre AS nombre_fabricante
+FROM productos p 
+INNER JOIN fabricante f ON f.id_fabricante = p.id_fabricante
+WHERE p.id_productos = 7;
+
+Listar los fabricantes y la cantidad de productos que tienen.
+
+SELECT f.nombre, GROUP_CONCAT(p.nombre) AS total_producto
+FROM productos p 
+INNER JOIN fabricante f ON f.id_fabricante = p.id_fabricante
+GROUP BY f.nombre;
+
+
+Calcular el precio promedio de los productos de cada fabricante
+
+SELECT f.nombre, AVG(p.precio) AS precio_promedio
+FROM productos p 
+INNER JOIN fabricante f ON f.id_fabricante = p.id_fabricante
+GROUP BY f.nombre;
+
+Mostrar los fabricantes que tienen productos con un precio superior a cierta cantidad
+
+SELECT f.nombre AS nombre_fabricante, p.nombre AS nombre_productos, p.precio
+FROM productos p 
+INNER JOIN fabricante f ON f.id_fabricante = p.id_fabricante
+WHERE p.precio > 500000;
+
+Contar la cantidad de productos por fabricante
+
+SELECT f.nombre AS nombre_fabricante, COUNT(p.id_productos) AS cantidad_productos
+FROM productos p 
+INNER JOIN fabricante f ON f.id_fabricante = p.id_fabricante
+GROUP BY f.nombre;
+
+Listar los fabricantes que tienen al menos un producto con un precio menor a cierta cantidad
+
+SELECT f.nombre AS nombre_fabricante, p.nombre AS nombre_productos, p.precio
+FROM productos p 
+INNER JOIN fabricante f ON f.id_fabricante = p.id_fabricante
+WHERE p.precio < 100000;
+
+Mostrar los productos con el precio más alto de cada fabricante
+
+SELECT f.nombre AS nombre_fabricante, MAX(p.precio) AS precio_maximo
+FROM productos p 
+INNER JOIN fabricante f ON f.id_fabricante = p.id_fabricante
+GROUP BY f.nombre;
+

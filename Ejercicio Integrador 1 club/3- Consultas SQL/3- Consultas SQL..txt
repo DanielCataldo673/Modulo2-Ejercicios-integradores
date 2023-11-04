@@ -1,0 +1,109 @@
+3- Consultas SQL.
+
+•Obtener la lista completa de todos los socios.
+
+SELECT s.id_socios, CONCAT(s.nombre, ' ' , s.apellido) AS FULL_name, s.fecha_inscripcion
+FROM socios s;
+
+•Obtener la lista completa de todos los deportes.
+
+SELECT d.id_deportes, d.nombre 
+FROM deportes d;
+
+•Listar todos los socios y los deportes que practican.
+
+SELECT s.id_socios, CONCAT(s.nombre, ' ' ,s.apellido) AS FULL_name,GROUP_CONCAT(d.nombre) AS total_deportes
+FROM inscripcion i
+INNER JOIN socios s ON s.id_socios = i.id_socios
+INNER JOIN deportes d ON d.id_deportes = i.id_deportes
+GROUP BY FULL_name;
+
+•Mostrar los socios que se unieron antes de cierta fecha y practican un deporte en particular (elijan el que quieran).
+
+SELECT s.id_socios, CONCAT(s.nombre, ' ' ,s.apellido) AS Full_name, s.fecha_inscripcion, d.nombre
+FROM inscripcion i 
+INNER JOIN socios s ON s.id_socios = i.id_socios
+INNER JOIN deportes d ON d.id_deportes = i.id_deportes
+WHERE s.fecha_inscripcion < '2023-08-20' AND d.nombre = 'Tenis';
+
+•Mostrar los deportes con menos de 2 socios practicantes.
+
+SELECT d.id_deportes, GROUP_CONCAT(d.nombre) AS total_deportes, CONCAT(s.nombre, ' ' ,s.apellido) AS Full_name
+FROM inscripcion i 
+INNER JOIN socios s ON s.id_socios = i.id_socios
+INNER JOIN deportes d ON d.id_deportes = i.id_deportes
+WHERE s.id_socios NOT IN (1,2,3)
+GROUP BY FULL_name;
+
+
+•Listar los socios y sus deportes, ordenados por fecha de inicio.
+
+SELECT s.id_socios, CONCAT(s.nombre, ' ' ,s.apellido) AS Full_name, i.fecha_de_inicio
+FROM inscripcion i 
+INNER JOIN socios s ON s.id_socios = i.id_socios
+INNER JOIN deportes d ON d.id_deportes = i.id_deportes
+ORDER BY i.fecha_de_inicio;
+
+(7)•Contar la cantidad total de socios y deportes que hay en el club.
+
+SELECT COUNT(s.id_socios) AS cantidad_socios,COUNT(d.id_deportes) AS cantidad_deportes
+FROM inscripcion i
+INNER JOIN socios s ON s.id_socios = i.id_socios
+INNER JOIN deportes d ON d.id_deportes = i.id_deportes;
+
+
+•Obtener la lista de socios que practiquen Tenis.
+
+SELECT CONCAT(s.nombre, ' ' ,s.apellido) AS Full_name, d.nombre
+FROM inscripcion i
+INNER JOIN socios s ON s.id_socios = i.id_socios
+INNER JOIN deportes d ON d.id_deportes = i.id_deportes
+WHERE d.nombre = 'Tenis';
+
+•Obtener la lista de socios que practiquen Futbol.
+
+SELECT CONCAT(s.nombre, ' ' ,s.apellido) AS Full_name, d.nombre
+FROM inscripcion i
+INNER JOIN socios s ON s.id_socios = i.id_socios
+INNER JOIN deportes d ON d.id_deportes = i.id_deportes
+WHERE d.nombre = 'Futbol';
+
+•Obtener la lista de socios que no estén inscriptos en ningún deporte.
+
+SELECT CONCAT(s.nombre, ' ' ,s.apellido) AS FULL_name, d.id_deportes
+FROM inscripcion i
+LEFT JOIN socios s ON s.id_socios = i.id_socios
+LEFT JOIN deportes d ON d.id_deportes = i.id_deportes
+WHERE d.id_deportes is NULL;
+
+•Listar el socio más joven que practica el deporte de Futbol.
+
+SELECT s.id_socios, s.fecha_nacimiento, CONCAT(s.nombre, ' ' ,s.apellido) AS full_name, d.nombre
+FROM  inscripcion i 
+INNER JOIN socios s ON s.id_socios = i.id_socios
+INNER JOIN deportes d ON d.id_deportes = i.id_deportes
+WHERE d.nombre = 'Futbol'
+ORDER BY s.fecha_nacimiento DESC
+LIMIT 1;
+
+
+•Listar el socio más viejo que practica el deporte de Tenis.
+
+SELECT s.id_socios, s.fecha_nacimiento, CONCAT(s.nombre, ' ' ,s.apellido) AS full_name, d.nombre
+FROM  inscripcion i 
+INNER JOIN socios s ON s.id_socios = i.id_socios
+INNER JOIN deportes d ON d.id_deportes = i.id_deportes
+WHERE d.nombre = 'Tenis'
+ORDER BY s.fecha_nacimiento
+LIMIT 1;
+
+•Encontrar el socio que practica más de un deporte.
+
+SELECT s.id_socios, CONCAT(s.nombre, ' ' ,s.apellido) AS Full_name, GROUP_CONCAT(d.nombre) AS total_deportes
+FROM inscripcion i 
+INNER JOIN socios s ON s.id_socios = i.id_socios
+INNER JOIN deportes d ON d.id_deportes = i.id_deportes
+WHERE s.id_socios IN (1,2,3)
+GROUP BY FULL_name;
+
+
